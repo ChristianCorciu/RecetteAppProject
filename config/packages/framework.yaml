@@ -1,15 +1,7 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
-
-    #esi: true
-    #fragments: true
-
-when@test:
-    framework:
-        test: true
-        session:
-            storage_factory_id: session.storage.factory.mock_file
+    session:
+        handler_id: null # Si tu veux utiliser le gestionnaire de session par défaut
+        save_path: '%kernel.cache_dir%/sessions' # L'endroit où les sessions seront sauvegardées
+        cookie_secure: auto # Pour assurer que le cookie de session soit envoyé uniquement via HTTPS
+        cookie_samesite: lax # Définit les politiques SameSite pour les cookies
