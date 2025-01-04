@@ -23,12 +23,12 @@ class Ingredient
     #[ORM\Column(length: 255)]
     private ?string $unit = null;
 
-    #[ORM\ManyToMany(targetEntity: Recipe::class, mappedBy: 'ingredients')]
-    private Collection $recipes;
+    #[ORM\OneToMany(mappedBy: 'ingredient', targetEntity: RecipeIngredient::class, cascade: ['persist', 'remove'])]
+    private Collection $recipeIngredients;
 
     public function __construct()
     {
-        $this->recipes = new ArrayCollection();
+        $this->recipeIngredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,27 +61,30 @@ class Ingredient
     }
 
     /**
-     * @return Collection<int, Recipe>
+     * @return Collection<int, RecipeIngredient>
      */
-    public function getRecipes(): Collection
+    public function getRecipeIngredients(): Collection
     {
-        return $this->recipes;
+        return $this->recipeIngredients;
     }
 
-    public function addRecipe(Recipe $recipe): static
+    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): static
     {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes->add($recipe);
-            $recipe->addIngredient($this);
+        if (!$this->recipeIngredients->contains($recipeIngredient)) {
+            $this->recipeIngredients->add($recipeIngredient);
+            $recipeIngredient->setIngredient($this);
         }
 
         return $this;
     }
 
-    public function removeRecipe(Recipe $recipe): static
+    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): static
     {
-        if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeIngredient($this);
+        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+            // Set the owning side to null (unless already changed)
+            if ($recipeIngredient->getIngredient() === $this) {
+                $recipeIngredient->setIngredient(null);
+            }
         }
 
         return $this;

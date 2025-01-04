@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Category;
-use App\Entity\Ingredient;
 use App\Entity\Recipe;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Category;
+use App\Form\RecipeIngredientType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RecipeType extends AbstractType
 {
@@ -20,20 +20,17 @@ class RecipeType extends AbstractType
             ->add('description')
             ->add('difficulty')
             ->add('steps')
-            ->add('ingredients', EntityType::class, [
-                'class' => Ingredient::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-            ])
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'name',
-            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
             ])
-        ;
+            ->add('recipeIngredients', CollectionType::class, [
+                'entry_type' => RecipeIngredientType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

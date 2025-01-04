@@ -29,8 +29,8 @@ class Recipe
     #[ORM\Column(length: 255)]
     private ?string $steps = null;
 
-    #[ORM\ManyToMany(targetEntity: Ingredient::class, inversedBy: 'recipes')]
-    private Collection $ingredients;
+    #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeIngredient::class, cascade: ['persist', 'remove'])]
+    private Collection $recipeIngredients;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'recipes')]
     private ?User $author = null;
@@ -40,7 +40,7 @@ class Recipe
 
     public function __construct()
     {
-        $this->ingredients = new ArrayCollection();
+        $this->recipeIngredients = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,27 +97,30 @@ class Recipe
     }
 
     /**
-     * @return Collection<int, Ingredient>
+     * @return Collection<int, RecipeIngredient>
      */
-    public function getIngredients(): Collection
+    public function getRecipeIngredients(): Collection
     {
-        return $this->ingredients;
+        return $this->recipeIngredients;
     }
 
-    public function addIngredient(Ingredient $ingredient): static
+    public function addRecipeIngredient(RecipeIngredient $recipeIngredient): static
     {
-        if (!$this->ingredients->contains($ingredient)) {
-            $this->ingredients->add($ingredient);
-            $ingredient->addRecipe($this);
+        if (!$this->recipeIngredients->contains($recipeIngredient)) {
+            $this->recipeIngredients->add($recipeIngredient);
+            $recipeIngredient->setRecipe($this);
         }
 
         return $this;
     }
 
-    public function removeIngredient(Ingredient $ingredient): static
+    public function removeRecipeIngredient(RecipeIngredient $recipeIngredient): static
     {
-        if ($this->ingredients->removeElement($ingredient)) {
-            $ingredient->removeRecipe($this);
+        if ($this->recipeIngredients->removeElement($recipeIngredient)) {
+            // Set the owning side to null (unless already changed)
+            if ($recipeIngredient->getRecipe() === $this) {
+                $recipeIngredient->setRecipe(null);
+            }
         }
 
         return $this;

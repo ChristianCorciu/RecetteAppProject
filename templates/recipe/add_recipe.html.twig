@@ -77,13 +77,39 @@
             background-color: #7f8c8d;
         }
 
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
         .mt-3 {
             margin-top: 20px;
+        }
+        
+        .ingredient-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .ingredient-group input,
+        .ingredient-group select {
+            width: 45%;
+        }
+
+        .ingredient-group .remove-ingredient {
+            align-self: center;
         }
     </style>
 
     <div class="container">
-        <h1>Ajouter une recette</h1>
+        <h1>Ajouter une nouvelle recette</h1>
 
         {{ form_start(form) }}
             <div class="form-group">
@@ -111,15 +137,18 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.ingredients, 'Ingrédients') }}
-                {{ form_widget(form.ingredients) }}
-                {{ form_errors(form.ingredients) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.author, 'Auteur') }}
-                {{ form_widget(form.author) }}
-                {{ form_errors(form.author) }}
+                <h3>Ingrédients</h3>
+                <div id="ingredients" data-prototype="{{ form_widget(form.recipeIngredients.vars.prototype)|e('html') }}" data-index="{{ form.recipeIngredients|length }}">
+                    {% for ingredientForm in form.recipeIngredients %}
+                        <div class="ingredient-group">
+                            {{ form_widget(ingredientForm.ingredient) }}
+                            {{ form_widget(ingredientForm.quantity) }}
+                            <a href="#" class="remove-ingredient btn btn-danger btn-sm">Supprimer</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn btn-secondary" id="add-ingredient">Ajouter un ingrédient</button>
+                {{ form_errors(form.recipeIngredients) }}
             </div>
 
             <div class="form-group">
@@ -132,4 +161,32 @@
             <a href="{{ path('app_home') }}" class="btn btn-secondary mt-3">Annuler</a>
         {{ form_end(form) }}
     </div>
+
+    <script>
+        document.getElementById('add-ingredient').addEventListener('click', function(e) {
+            e.preventDefault();
+            const ingredientsContainer = document.getElementById('ingredients');
+            const prototype = ingredientsContainer.dataset.prototype;
+            const index = ingredientsContainer.dataset.index || ingredientsContainer.children.length;
+            const newForm = prototype.replace(/__name__/g, index);
+            const div = document.createElement('div');
+            div.innerHTML = newForm;
+            div.classList.add('ingredient-group');
+            div.insertAdjacentHTML('beforeend', '<a href="#" class="remove-ingredient btn btn-danger btn-sm">Supprimer</a>');
+            ingredientsContainer.appendChild(div);
+            ingredientsContainer.dataset.index = parseInt(index) + 1;
+            bindRemoveIngredient();
+        });
+
+        function bindRemoveIngredient() {
+            document.querySelectorAll('.remove-ingredient').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    button.closest('.ingredient-group').remove();
+                });
+            });
+        }
+
+        bindRemoveIngredient();
+    </script>
 {% endblock %}
