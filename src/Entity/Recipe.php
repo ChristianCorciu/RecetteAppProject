@@ -26,8 +26,8 @@ class Recipe
     #[ORM\Column(length: 255)]
     private ?string $difficulty = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $steps = null;
+    #[ORM\Column(type: "json")]
+    private array $steps = [];
 
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: RecipeIngredient::class, cascade: ['persist', 'remove'])]
     private Collection $recipeIngredients;
@@ -84,16 +84,15 @@ class Recipe
         return $this;
     }
 
-    public function getSteps(): ?string
+    public function getSteps(): array
     {
-        return $this->steps;
+    return $this->steps;
     }
 
-    public function setSteps(string $steps): static
+    public function setSteps(array $steps): static
     {
-        $this->steps = $steps;
-
-        return $this;
+    $this->steps = $steps;
+    return $this;
     }
 
     /**

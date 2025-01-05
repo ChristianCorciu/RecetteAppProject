@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ recipe.name }} - Détails de la recette{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        p strong {
+            color: #2c3e50;
+        }
+
+        ul {
+            margin-left: 20px;
+            padding-left: 0;
+            list-style-type: disc;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .difficulty {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-5 {
+            margin-top: 3rem;
+        }
+
+        .highlight {
+            background-color: #fdf2e9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+
+    <div class="container mt-5">
+        <h1>{{ recipe.name }}</h1>
+        <p><strong>Auteur:</strong> {{ recipe.author.name }}</p>
+        <p class="difficulty"><strong>Difficulté:</strong> {{ recipe.difficulty }}</p>
+        <p class="highlight"><strong>Description:</strong> {{ recipe.description }}</p>
+        <p><strong>Ingrédients :</strong></p>
+        <ul>
+    {% for recipeIngredient in recipe.recipeIngredients %}
+        <li>
+            {{ recipeIngredient.ingredient.name }} : {{ recipeIngredient.quantity }} {{ recipeIngredient.ingredient.unit }}
+        </li>
+    {% endfor %}
+</ul>
+
+        <h3>Étapes:</h3>
+        <ul>
+            {% for step in recipe.steps %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ path('app_home') }}" class="btn mt-4">Retour à la liste</a>
+    </div>
+{% endblock %}

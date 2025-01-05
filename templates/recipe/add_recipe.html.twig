@@ -92,18 +92,21 @@
             margin-top: 20px;
         }
         
-        .ingredient-group {
+        .ingredient-group,
+        .step-group {
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
         }
-        
+
         .ingredient-group input,
-        .ingredient-group select {
+        .ingredient-group select,
+        .step-group input {
             width: 45%;
         }
 
-        .ingredient-group .remove-ingredient {
+        .remove-ingredient,
+        .remove-step {
             align-self: center;
         }
     </style>
@@ -131,8 +134,16 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.steps, 'Étapes') }}
-                {{ form_widget(form.steps, { 'attr': {'placeholder': 'Décrivez les étapes de la recette'} }) }}
+                <h3>Étapes</h3>
+                <div id="steps" data-prototype="{{ form_widget(form.steps.vars.prototype)|e('html') }}" data-index="{{ form.steps|length }}">
+                    {% for stepForm in form.steps %}
+                        <div class="step-group">
+                            {{ form_widget(stepForm) }}
+                            <a href="#" class="remove-step btn btn-danger btn-sm">Supprimer</a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" class="btn btn-secondary" id="add-step">Ajouter une étape</button>
                 {{ form_errors(form.steps) }}
             </div>
 
@@ -187,6 +198,31 @@
             });
         }
 
+        document.getElementById('add-step').addEventListener('click', function(e) {
+            e.preventDefault();
+            const stepsContainer = document.getElementById('steps');
+            const prototype = stepsContainer.dataset.prototype;
+            const index = stepsContainer.dataset.index || stepsContainer.children.length;
+            const newForm = prototype.replace(/__name__/g, index);
+            const div = document.createElement('div');
+            div.innerHTML = newForm;
+            div.classList.add('step-group');
+            div.insertAdjacentHTML('beforeend', '<a href="#" class="remove-step btn btn-danger btn-sm">Supprimer</a>');
+            stepsContainer.appendChild(div);
+            stepsContainer.dataset.index = parseInt(index) + 1;
+            bindRemoveStep();
+        });
+
+        function bindRemoveStep() {
+            document.querySelectorAll('.remove-step').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    button.closest('.step-group').remove();
+                });
+            });
+        }
+
         bindRemoveIngredient();
+        bindRemoveStep();
     </script>
 {% endblock %}

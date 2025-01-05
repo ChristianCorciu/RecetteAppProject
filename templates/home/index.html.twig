@@ -55,6 +55,19 @@
             background-color: #27ae60;
         }
 
+        .btn-info {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .btn-info:hover {
+            background-color: #2980b9;
+        }
+
         .ms-2 {
             margin-left: 10px;
         }
@@ -83,6 +96,7 @@
         }
 
         .card {
+            position: relative; /* Ajout de la position relative */
             background-color: white;
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -132,11 +146,25 @@
             background-color: #2980b9;
         }
 
+        /* Bouton Voir en haut à droite */
+        .btn-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+
         /* Section vide */
         p {
             color: #bdc3c7;
             font-style: italic;
             margin-top: 20px;
+        }
+
+        /* Icons */
+        .fa-edit, .fa-trash, .fa-eye {
+            margin-right: 5px;
         }
 
         /* Responsive */
@@ -170,11 +198,19 @@
                 <h2>Entrées</h2>
                 {% for recipe in entrées %}
                     <div class="card">
+                        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
+                            <i class="fa fa-eye"></i> Voir
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title">{{ recipe.name }}</h5>
                             <p class="card-author">Auteur: {{ recipe.author.name }}</p>
                             <p class="card-text">{{ recipe.description }}</p>
-                            <a href="#" class="btn btn-primary">Voir</a>
+                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
+                                <i class="fa fa-edit"></i> Modifier
+                            </a>
+                            <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
                         </div>
                     </div>
                 {% else %}
@@ -187,11 +223,19 @@
                 <h2>Plats</h2>
                 {% for recipe in plats %}
                     <div class="card">
+                        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
+                            <i class="fa fa-eye"></i> Voir
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title">{{ recipe.name }}</h5>
                             <p class="card-author">Auteur: {{ recipe.author.name }}</p>
                             <p class="card-text">{{ recipe.description }}</p>
-                            <a href="#" class="btn btn-primary">Voir</a>
+                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
+                                <i class="fa fa-edit"></i> Modifier
+                            </a>
+                            <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
                         </div>
                     </div>
                 {% else %}
@@ -204,11 +248,19 @@
                 <h2>Desserts</h2>
                 {% for recipe in desserts %}
                     <div class="card">
+                        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
+                            <i class="fa fa-eye"></i> Voir
+                        </a>
                         <div class="card-body">
                             <h5 class="card-title">{{ recipe.name }}</h5>
                             <p class="card-author">Auteur: {{ recipe.author.name }}</p>
                             <p class="card-text">{{ recipe.description }}</p>
-                            <a href="#" class="btn btn-primary">Voir</a>
+                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
+                                <i class="fa fa-edit"></i> Modifier
+                            </a>
+                            <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
+                                <i class="fa fa-trash"></i> Supprimer
+                            </a>
                         </div>
                     </div>
                 {% else %}
@@ -217,4 +269,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
