@@ -149,4 +149,23 @@ class Recipe
 
         return $this;
     }
+    public function getIngredients(): array
+{
+    $ingredients = [];
+    foreach ($this->recipeIngredients as $recipeIngredient) {
+        $ingredients[] = $recipeIngredient->getIngredient()->getName(); // Suppose que vous avez une entité Ingredient liée à RecipeIngredient
+    }
+    return $ingredients;
+}
+public function getInstructions(): ?string
+{
+    return $this->instructions;
+}
+
+public function setInstructions(string $instructions): static
+{
+    $this->instructions = $instructions;
+    return $this;
+}
+
 }

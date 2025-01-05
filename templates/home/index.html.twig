@@ -158,6 +158,11 @@
         <!-- Message de bienvenue -->
         <h1>Bienvenue{{ app.user ? ', ' ~ app.user.name : '' }} !</h1>
 
+        <!-- Bouton pour afficher toutes les recettes -->
+        <div class="mb-3">
+            <a href="{{ path('app_all_recipes') }}" class="btn btn-primary">Afficher toutes les recettes</a>
+        </div>
+
         <!-- Section pour les catégories de recettes -->
         <div class="row">
             <!-- Entrées -->

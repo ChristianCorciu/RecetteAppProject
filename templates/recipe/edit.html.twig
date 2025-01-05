@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une recette{% endblock %}
+{% block title %}Modifier une recette{% endblock %}
 
 {% block body %}
     <style>
@@ -91,13 +91,13 @@
         .mt-3 {
             margin-top: 20px;
         }
-        
+
         .ingredient-group {
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
         }
-        
+
         .ingredient-group input,
         .ingredient-group select {
             width: 45%;
@@ -109,7 +109,7 @@
     </style>
 
     <div class="container">
-        <h1>Ajouter une nouvelle recette</h1>
+        <h1>Modifier la recette</h1>
 
         {{ form_start(form) }}
             <div class="form-group">
@@ -157,8 +157,8 @@
                 {{ form_errors(form.category) }}
             </div>
 
-            <button type="submit" class="btn btn-success">Ajouter la recette</button>
-            <a href="{{ path('app_home') }}" class="btn btn-secondary mt-3">Annuler</a>
+            <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+           <a href="{{ path('app_all_recipes') }}" class="btn btn-secondary mt-3">Annuler</a>
         {{ form_end(form) }}
     </div>
 

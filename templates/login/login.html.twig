@@ -1,0 +1,152 @@
+{# templates/login/login.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/register.css') }}">
+{% endblock %}
+
+{% block body %}
+    <h1 class="titre">Login</h1>
+
+    {% if error %}
+        <div class="form-error">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
+    <form method="post">
+        <div>
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" name="email" required autofocus>
+        </div>
+
+        <div>
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+
+   <style>
+/* Styles de base pour la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+}
+
+/* Carte */
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: #007bff;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Titres et textes */
+h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Formulaire */
+.form-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Bouton de connexion */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1.125rem;
+    padding: 0.75rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 91, 187, 0.2);
+}
+
+/* Alertes */
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+    }
+}
+
+  </style>
+{% endblock %}

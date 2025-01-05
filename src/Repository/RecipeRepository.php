@@ -1,14 +1,13 @@
 <?php
 
+// src/Repository/RecipeRepository.php
+
 namespace App\Repository;
 
 use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Recipe>
- */
 class RecipeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +15,21 @@ class RecipeRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
-    //    /**
-    //     * @return Recipe[] Returns an array of Recipe objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    // Récupérer les recettes par catégorie
+    public function findByCategoryName(string $categoryName)
+{
+    $qb = $this->createQueryBuilder('r')
+        ->innerJoin('r.category', 'c')
+        ->where('c.name = :categoryName')
+        ->setParameter('categoryName', $categoryName);
 
-    //    public function findOneBySomeField($value): ?Recipe
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
-}
+    $recipes = $qb->getQuery()->getResult();
+
+    // Vérifiez le résultat
+    if (empty($recipes)) {
+        // Vous pouvez journaliser ou afficher le résultat pour déboguer
+        dump($recipes);
+    }
+
+    return $recipes;
+}}

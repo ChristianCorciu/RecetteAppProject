@@ -13,6 +13,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RecipeController extends AbstractController
 {
+    
+    private $entityManager;
+
+    // Injection de l'EntityManager dans le contrôleur
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
     #[Route('/recipe', name: 'app_recipe')]
     public function index(): Response
     {
@@ -47,5 +55,50 @@ class RecipeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/recipes', name: 'app_all_recipes')]
+    public function allRecipes(): Response
+    {
+        $recipes = $this->entityManager->getRepository(Recipe::class)->findAll();
+    
+        return $this->render('recipe/all_recipes.html.twig', [
+            'recipes' => $recipes,
+        ]);
+    }
+    
+     
+
+    #[Route("/recipe/{id}/edit", name:"recipe_edit")]
+    public function edit(Request $request, EntityManagerInterface $em, $id)
+    {
+        // Récupérer la recette à modifier
+        $recipe = $em->getRepository(Recipe::class)->find($id);
+        
+        if (!$recipe) {
+            throw $this->createNotFoundException('Recette non trouvée');
+        }
+
+        // Créer le formulaire de modification
+        $form = $this->createForm(RecipeType::class, $recipe);
+        
+        // Traitement du formulaire
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Sauvegarde de la recette modifiée
+            $em->flush();
+
+            // Message flash pour indiquer le succès de la modification
+            $this->addFlash('success', 'Recette modifiée avec succès!');
+            return $this->redirectToRoute('app_all_recipes'); // Redirection vers la liste des recettes ou une autre page
+        }
+
+        // Affichage du formulaire
+        return $this->render('recipe/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+        
+    }
+    
+
 
 }
