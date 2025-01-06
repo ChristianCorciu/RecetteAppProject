@@ -13,7 +13,7 @@ class RecipeIngredient
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id;
 
     #[ORM\ManyToOne(targetEntity: Recipe::class, inversedBy: 'recipeIngredients')]
     #[ORM\JoinColumn(nullable: false)]

@@ -3,23 +3,135 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
 
-    {{ form_errors(registrationForm) }}
+        .register-container {
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.name, {
-            label: 'Full Name'
-        }) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword.first, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.plainPassword.second, {
-            label: 'Confirm Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+        .register-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-        <button type="submit" class="btn btn-primary">Register</button>
-    {{ form_end(registrationForm) }}
+        .register-card {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .form-errors {
+            margin-bottom: 15px;
+            color: #e74c3c;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .form-check {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-check input {
+            margin-right: 10px;
+        }
+
+        .form-check label {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
+
+    <div class="register-container">
+        <!-- Titre placé au-dessus de la carte -->
+        <h1 class="register-title">Register</h1>
+
+        <!-- Carte contenant le formulaire -->
+        <div class="register-card">
+            <div class="form-errors">
+                {{ form_errors(registrationForm) }}
+            </div>
+
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.name, {
+                    label: 'Full Name',
+                    attr: { class: 'form-control' }
+                }) }}
+                {{ form_row(registrationForm.email, {
+                    attr: { class: 'form-control' }
+                }) }}
+                {{ form_row(registrationForm.plainPassword.first, {
+                    label: 'Password',
+                    attr: { class: 'form-control' }
+                }) }}
+                {{ form_row(registrationForm.plainPassword.second, {
+                    label: 'Confirm Password',
+                    attr: { class: 'form-control' }
+                }) }}
+                {{ form_row(registrationForm.agreeTerms, {
+                    label: 'I agree to the terms and conditions',
+                    attr: { class: 'form-check-input' }
+                }) }}
+
+                <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
 {% endblock %}
