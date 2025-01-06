@@ -85,6 +85,16 @@
             padding: 10px;
             border-radius: 5px;
         }
+
+        .nutrition-link {
+            margin-top: 1.5rem;
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .nutrition-link:hover {
+            text-decoration: underline;
+        }
     </style>
 
     <div class="container mt-5">
@@ -94,12 +104,12 @@
         <p class="highlight"><strong>Description:</strong> {{ recipe.description }}</p>
         <p><strong>Ingrédients :</strong></p>
         <ul>
-    {% for recipeIngredient in recipe.recipeIngredients %}
-        <li>
-            {{ recipeIngredient.ingredient.name }} : {{ recipeIngredient.quantity }} {{ recipeIngredient.ingredient.unit }}
-        </li>
-    {% endfor %}
-</ul>
+            {% for recipeIngredient in recipe.recipeIngredients %}
+                <li>
+                    {{ recipeIngredient.ingredient.name }} : {{ recipeIngredient.quantity }} {{ recipeIngredient.ingredient.unit }}
+                </li>
+            {% endfor %}
+        </ul>
 
         <h3>Étapes:</h3>
         <ul>
@@ -107,6 +117,8 @@
                 <li>{{ step }}</li>
             {% endfor %}
         </ul>
+
+        <a href="{{ path('recipe_nutrition', {'id': recipe.id}) }}" class="nutrition-link">Voir les informations nutritionnelles</a>
 
         <a href="{{ path('app_home') }}" class="btn mt-4">Retour à la liste</a>
     </div>
