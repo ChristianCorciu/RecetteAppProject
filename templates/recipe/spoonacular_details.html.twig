@@ -56,11 +56,12 @@
 
     <h3>Informations nutritionnelles</h3>
     <ul>
-        <li><strong>Calories:</strong> {{ calories }}</li>
-        <li><strong>Fibres:</strong> {{ fiber }}</li>
-        <li><strong>Glucides:</strong> {{ carbs }}</li>
-        <li><strong>Protéines:</strong> {{ protein }}</li>
-        <li><strong>Graisses:</strong> {{ fat }}</li>
+        <li><strong>Calories:</strong> {{ calories }} kcal</li>
+        <li><strong>Fibres:</strong> {{ fiber }} g</li>
+        <li><strong>Glucides:</strong> {{ carbs }} g</li>
+        <li><strong>Sucres:</strong> {{ sugar }} g</li>
+        <li><strong>Protéines:</strong> {{ protein }} g</li>
+        <li><strong>Graisses:</strong> {{ fat }} g</li>
     </ul>
 
     <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn mt-4">Retour à la recette</a>
