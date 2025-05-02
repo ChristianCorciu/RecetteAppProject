@@ -56,7 +56,7 @@
     }
 
     .btn-info {
-        background-color: #3498db;
+       background-color: #2ecc71;
         color: white;
         border: none;
         padding: 8px 15px;
@@ -65,7 +65,7 @@
     }
 
     .btn-info:hover {
-        background-color: #2980b9;
+        background-color: #2ecc71;
     }
 
     .ms-2 {
@@ -195,6 +195,34 @@
             max-width: 100%;
         }
     }
+    .btn-outline-danger {
+    background-color: transparent;
+    border: 2px solid #e74c3c;
+    color: #e74c3c;
+}
+
+.btn-outline-danger:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+.custom-btn {
+    background-color: #3498db; /* Bleu pour le bouton */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 25px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+    background-color: #2980b9; /* Bleu foncé au survol */
+}
+
+
 </style>
 
 <div class="container">
@@ -209,10 +237,21 @@
     </div>
 
     <!-- Boutons en haut à droite -->
-    <div class="d-flex justify-content-end mb-3">
-        <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
-        <a href="{{ path('app_add_recipe') }}" class="btn btn-success ms-2">Ajouter une recette</a>
-    </div>
+<div class="d-flex justify-content-end mb-3" style="gap: 10px; flex-wrap: wrap;">
+    <a href="{{ path('app_user_profile') }}" class="btn btn-info">
+        <i class="fa fa-user"></i> Mon profil
+    </a>
+    <a href="{{ path('app_user_favorites') }}" class="btn btn-info">
+        <i class="fa fa-heart"></i> Mes favoris
+    </a>
+    <a href="{{ path('app_add_recipe') }}" class="btn btn-success">
+        <i class="fa fa-plus"></i> Ajouter une recette
+    </a>
+    <a href="{{ path('app_logout') }}" class="btn btn-danger">
+        <i class="fa fa-sign-out-alt"></i> Se déconnecter
+    </a>
+</div>
+
 
     <!-- Bouton pour afficher toutes les recettes -->
     <div class="mb-3">
@@ -229,6 +268,8 @@
                     <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
                         <i class="fa fa-eye"></i> Voir
                     </a>
+                  
+
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.name }}</h5>
                         <p class="card-author">Auteur: {{ recipe.author.name }}</p>
@@ -236,6 +277,11 @@
                         <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
                             <i class="fa fa-edit"></i> Modifier
                         </a>
+                      <a href="{{ path('app_add_favorite', {'id': recipe.id}) }}" class="btn btn-outline-danger btn-sm" style="font-size: 1.2rem; padding: 5px 10px; min-width: 30px; text-align: center;">
+                                 <i class="fa fa-heart"></i>
+                    </a>
+
+
                         <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
                             <i class="fa fa-trash"></i> Supprimer
                         </a>
@@ -250,50 +296,60 @@
             <div class="col-md-4 mb-4">
                 <h2>Plats</h2>
                 {% for recipe in plats %}
-                    <div class="card">
-                        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
-                            <i class="fa fa-eye"></i> Voir
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recipe.name }}</h5>
-                            <p class="card-author">Auteur: {{ recipe.author.name }}</p>
-                            <p class="card-text">{{ recipe.description }}</p>
-                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
-                                <i class="fa fa-edit"></i> Modifier
-                            </a>
-                            <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
-                                <i class="fa fa-trash"></i> Supprimer
-                            </a>
-                        </div>
-                    </div>
-                {% else %}
-                    <p>Aucun plat disponible.</p>
-                {% endfor %}
+    <div class="card">
+        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info btn-sm" style="position: absolute; top: 10px; right: 10px;">
+            <i class="fa fa-eye"></i> Voir
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{ recipe.name }}</h5>
+            <p class="card-author">Auteur: {{ recipe.author.name }}</p>
+            <p class="card-text">{{ recipe.description }}</p>
+
+            <div class="d-flex flex-wrap mt-2" style="gap: 6px;">
+                <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-edit"></i> Modifier
+                </a>
+                <a href="{{ path('app_add_favorite', {'id': recipe.id}) }}" class="btn btn-outline-danger btn-sm" style="font-size: 1.2rem; padding: 5px 10px; min-width: 30px; text-align: center;">
+                                 <i class="fa fa-heart"></i>
+                    </a>
+                <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> Supprimer
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+                
             </div>
 
             <!-- Desserts -->
             <div class="col-md-4 mb-4">
                 <h2>Desserts</h2>
                 {% for recipe in desserts %}
-                    <div class="card">
-                        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info">
-                            <i class="fa fa-eye"></i> Voir
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ recipe.name }}</h5>
-                            <p class="card-author">Auteur: {{ recipe.author.name }}</p>
-                            <p class="card-text">{{ recipe.description }}</p>
-                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">
-                                <i class="fa fa-edit"></i> Modifier
-                            </a>
-                            <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger ms-2">
-                                <i class="fa fa-trash"></i> Supprimer
-                            </a>
-                        </div>
-                    </div>
-                {% else %}
-                    <p>Aucun dessert disponible.</p>
-                {% endfor %}
+                   <div class="card">
+        <a href="{{ path('recipe_view', {'id': recipe.id}) }}" class="btn btn-info btn-sm" style="position: absolute; top: 10px; right: 10px;">
+            <i class="fa fa-eye"></i> Voir
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{ recipe.name }}</h5>
+            <p class="card-author">Auteur: {{ recipe.author.name }}</p>
+            <p class="card-text">{{ recipe.description }}</p>
+
+            <div class="d-flex flex-wrap mt-2" style="gap: 6px;">
+                <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary btn-sm">
+                    <i class="fa fa-edit"></i> Modifier
+                </a>
+                <a href="{{ path('app_add_favorite', {'id': recipe.id}) }}" class="btn btn-outline-danger btn-sm" style="font-size: 1.2rem; padding: 5px 10px; min-width: 30px; text-align: center;">
+                                 <i class="fa fa-heart"></i>
+                    </a>
+                <a href="{{ path('recipe_delete', {'id': recipe.id}) }}" class="btn btn-danger btn-sm">
+                    <i class="fa fa-trash"></i> Supprimer
+                </a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
             </div>
         </div>
     </div>

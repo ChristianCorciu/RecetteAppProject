@@ -1,2 +1,12 @@
-{# templates/user/profile.html.twig #}
-<h1>Bienvenue {{ name }} ({{ email }})</h1>
+<h1>Profil de {{ user.username }}</h1>
+<p><strong>Niveau :</strong> {{ user.profile.level }}</p>
+<p><strong>À propos :</strong> {{ user.profile.bio }}</p>
+
+<h3>Recettes en favoris</h3>
+<ul>
+  {% for recipe in user.favorites %}
+    <li><a href="{{ path('app_recipe_show', {'id': recipe.id}) }}">{{ recipe.name }}</a></li>
+  {% else %}
+    <li>Aucune recette en favoris.</li>
+  {% endfor %}
+</ul>

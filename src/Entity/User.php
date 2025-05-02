@@ -24,6 +24,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: UserProfile::class, cascade: ['persist', 'remove'])]
+    private $profile;
+    #[ORM\ManyToMany(targetEntity: Recipe::class)]
+    #[ORM\JoinTable(name: 'user_favorites')]
+    private $favorites; 
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
