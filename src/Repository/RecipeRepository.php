@@ -32,4 +32,32 @@ class RecipeRepository extends ServiceEntityRepository
     }
 
     return $recipes;
-}}
+}
+public function findByUserId(int $userId): array
+{
+    return $this->createQueryBuilder('r')
+        ->join('r.author', 'a')
+        ->where('a.id = :userId')
+        ->setParameter('userId', $userId)
+        ->getQuery()
+        ->getResult();
+}
+public function findByName(string $name): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.name LIKE :name')
+        ->setParameter('name', '%' . $name . '%')
+        ->orderBy('r.name', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+public function findByDescription(string $description): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.description LIKE :description')
+        ->setParameter('description', '%' . $description . '%')
+        ->orderBy('r.description', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+}

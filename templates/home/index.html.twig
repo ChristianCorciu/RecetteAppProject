@@ -5,19 +5,34 @@
 {% block body %}
 <style>
     /* Mise en forme générale */
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-        color: #333;
-    }
+   body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+
+    background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+        url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1650&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
 
     .container {
-        max-width: 1200px;
-        margin: 30px auto;
-        padding: 0 15px;
-    }
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+   
+
+
+
 
     h1 {
         font-size: 2.5rem;
@@ -71,6 +86,29 @@
     .ms-2 {
         margin-left: 10px;
     }
+    .btn-all-recipes {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    border: none;
+    padding: 8px 24px;       /* un peu moins large et haut */
+    font-size: 1rem;         /* un peu plus petit */
+    font-weight: 600;
+    border-radius: 50px;
+    box-shadow: 0 4px 12px rgba(0, 242, 254, 0.4);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    text-align: center;
+}
+
+.btn-all-recipes:hover {
+    background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+    box-shadow: 0 6px 16px rgba(0, 242, 254, 0.7);
+    transform: translateY(-2px);
+}
+
 
     .mb-3 {
         margin-bottom: 30px;
@@ -141,6 +179,7 @@
         padding: 8px 15px;
         border-radius: 5px;
     }
+    
 
     .card .btn-primary:hover {
         background-color: #2980b9;
@@ -175,18 +214,20 @@
         margin-bottom: 20px;
     }
 
-    .user-avatar img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 2px solid #ddd;
-    }
+   
+.user-avatar img {
+    width: 70px;   /* Agrandi de 50px à 70px */
+    height: 70px;  /* Agrandi de 50px à 70px */
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
 
-    .user-name {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: #333;
-    }
+.user-name {
+    font-size: 1.5rem;  /* Agrandi de 1.2rem à 1.5rem */
+    font-weight: bold;
+    color: #333;
+}
+
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -255,7 +296,7 @@
 
     <!-- Bouton pour afficher toutes les recettes -->
     <div class="mb-3">
-        <a href="{{ path('app_all_recipes') }}" class="btn btn-primary">Afficher toutes les recettes</a>
+        <a href="{{ path('app_all_recipes') }}" class="btn btn-all-recipes">Afficher toutes les recettes</a>
     </div>
 
     <!-- Section pour les catégories de recettes -->

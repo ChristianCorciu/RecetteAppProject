@@ -1,6 +1,18 @@
 <div class="container">
     <!-- Titre de la page -->
     <h1 class="page-title">Voici toutes les recettes</h1>
+    <div class="search-bar d-flex justify-content-end mb-4">
+    <form method="get" action="{{ path('recipe_search') }}" class="form-inline">
+        <input type="text" name="q" class="form-control mr-2" placeholder="Rechercher une recette..." />
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+</div>
+<!-- Bouton Home en haut à gauche -->
+<div class="home-button mb-3">
+    <a href="{{ path('app_home') }}" class="btn btn-outline-primary">Accueil</a>
+</div>
+
+
 
     <!-- Wrapper row pour organiser les cartes en colonnes -->
     <div class="row">
@@ -21,7 +33,10 @@
 
                         <p class="card-description"><strong>Description: </strong>{{ recipe.description }}</p>
                         <p class="card-difficulty"><strong>Difficulté: </strong>{{ recipe.difficulty }}</p>
-                        <p class="card-steps"><strong>Étapes: </strong>{{ recipe.steps }}</p>
+                        <p class="card-steps"><strong>Étapes: </strong>
+    {{ recipe.steps|join(', ') }}
+</p>
+
 
                         {# Affichage des ingrédients #}
                         <p class="card-ingredients"><strong>Ingrédients: </strong>
@@ -33,7 +48,10 @@
                         {# Affichage de la catégorie #}
                         <p class="card-category"><strong>Catégorie: </strong>{{ recipe.category.name }}</p>
 
-                        <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">Modifier</a>
+                       {% if app.user and recipe.author == app.user %}
+                            <a href="{{ path('recipe_edit', {'id': recipe.id}) }}" class="btn btn-primary">Modifier</a>
+                         {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -43,7 +61,8 @@
 
 <style>
 body {
-    background: linear-gradient(135deg, #f1f8ff, #cce7ff); /* Dégradé de bleu clair vers bleu plus intense */
+    background: 
+                url('https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg'); /* Dégradé de bleu clair vers bleu plus intense */
     font-family: 'Arial', sans-serif; /* Police pour un meilleur rendu */
     color: #333; /* Texte plus foncé pour un meilleur contraste */
     margin: 0;
@@ -53,6 +72,34 @@ body {
     justify-content: center;
     align-items: flex-start; /* Centrer tout le contenu verticalement */
 }
+.page-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 3rem;
+    text-align: center;
+    color:rgb(254, 253, 252); /* beige clair */
+    text-shadow: 1px 1px 3px rgba(239, 231, 231, 0.2);
+    margin-bottom: 40px;
+    letter-spacing: 1.5px;
+    user-select: none;
+    opacity: 0;
+    animation: fadeInTitle 1.2s ease forwards;
+}
+
+@keyframes fadeInTitle {
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-title {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+}
+
+
 
 .container {
     width: 80%;
@@ -80,6 +127,31 @@ body {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Ombre plus marquée au survol */
 }
+.recipe-card a.btn {
+    display: inline-block;
+    margin-top: 20px; /* espace au-dessus */
+    padding: 8px 20px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #4a90e2, #1c60d1);
+    color: white !important;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 3px 12px rgba(28, 96, 209, 0.6);
+    text-transform: uppercase;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.recipe-card a.btn:hover {
+    background: linear-gradient(45deg, #1c60d1, #4a90e2);
+    box-shadow: 0 5px 18px rgba(74, 144, 226, 0.8);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white !important;
+}
+
 
 .card-title {
     font-size: 1.5rem; /* Augmenter la taille de la police du titre */
@@ -120,6 +192,88 @@ body {
     background-color: #0056b3; /* Couleur plus sombre au survol */
     border-color: #0056b3;
 }
+.search-bar {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 25px; /* Remonte la barre un peu, proche du bouton Accueil */
+    right: 20px;
+    z-index: 1000;
+    gap: 10px;
+}
+
+.search-bar input.form-control {
+    width: 280px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 30px;
+    background-color: #f0f5ff; /* Bleu très clair */
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+    font-size: 1rem;
+    transition: box-shadow 0.3s ease;
+    color: #343a40;
+}
+
+.search-bar input.form-control:focus {
+    outline: none;
+    box-shadow: 0 4px 12px rgba(28, 96, 209, 0.6);
+    background-color: #ffffff;
+}
+
+.search-bar button.btn-primary {
+    padding: 10px 25px;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #4a90e2, #1c60d1);
+    border: none;
+    box-shadow: 0 4px 15px rgba(28, 96, 209, 0.6);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1.2px;
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+    color: white;
+    cursor: pointer;
+}
+
+.search-bar button.btn-primary:hover {
+    background: linear-gradient(45deg, #1c60d1, #4a90e2);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.8);
+    transform: translateY(-3px);
+    color: white;
+}
+
+.home-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000; /* Pour qu’il reste au-dessus */
+}
+
+.home-button .btn {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #4a90e2, #1c60d1); /* dégradé bleu */
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(28, 96, 209, 0.6);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 1.2px;
+    display: inline-block;
+}
+
+.home-button .btn:hover {
+    background: linear-gradient(45deg, #1c60d1, #4a90e2);
+    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.8);
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: #ffffff;
+}
+
+
+
 
 /* Augmenter l'espace entre les cartes */
 .row {

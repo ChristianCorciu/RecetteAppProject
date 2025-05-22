@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\RecipeRepository;
+
 
 class RecipeController extends AbstractController
 {
@@ -154,6 +156,17 @@ public function nutrition(int $id): Response
             'recipes' => $recipes,
         ]);
     }
+    #[Route('/recettes/recherche', name: 'recipe_search')]
+    public function search(Request $request, RecipeRepository $recipeRepository): Response
+    {
+        $query = $request->query->get('q', '');
+        $recipes = $recipeRepository->findByName($query);
+
+        return $this->render('recipe/all_recipes.html.twig', [
+            'recipes' => $recipes
+        ]);
+    }
+
 
     #[Route("/recipe/{id}/delete", name: "recipe_delete")]
     public function delete(EntityManagerInterface $em, $id): Response

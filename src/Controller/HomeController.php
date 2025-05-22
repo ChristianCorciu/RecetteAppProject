@@ -23,10 +23,22 @@ class HomeController extends AbstractController
     }
     
     #[Route('/home', name: 'app_home')]
-    public function index(RecipeRepository $recipeRepository): Response
+    public function index( RecipeRepository $recipeRepository,
+    Security $security
+): Response
     {
+        // Vérifier si l'utilisateur est connecté
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_landing');
+        }
+
+         // Récupérer l'utilisateur connecté
+         // Vérifier si l'utilisateur est connecté      
+    {
+         {
+    $user = $security->getUser();
          // Récupérer toutes les recettes
-         $recipes = $recipeRepository->findAll();
+         $recipes = $recipeRepository->findBy(['author' => $user]);
 
          // Séparer les recettes en catégories
          $entrées = array_filter($recipes, fn($r) => $r->getCategory()->getName() === 'Entrées');
@@ -40,4 +52,5 @@ class HomeController extends AbstractController
          ]);
     }
 }
-
+    }
+}
