@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install Symfony CLI directly to /usr/local/bin
-RUN curl -sSLo /usr/local/bin/symfony https://get.symfony.com/cli/installer \
-    && chmod +x /usr/local/bin/symfony
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
+    apt-get install -y symfony-cli
 
 # Create app directory and set permissions
 WORKDIR /app
