@@ -1,19 +1,36 @@
-FROM php:8.1-cli
+FROM php:8.2-fpm
 
-# Installer les dépendances système utiles
-RUN apt-get update && apt-get install -y unzip git zip
+USER root
 
-# Installer Composer globalement
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
-    && php -r "unlink('composer-setup.php');"
+# Installer les dépendances
+RUN apt-get update && apt-get install -y \
+    unzip git zip curl libicu-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
+ && docker-php-ext-install intl pdo pdo_mysql pdo_pgsql zip opcache \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Copier les fichiers de ton projet
+# Installer Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Installer Symfony CLI
+RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash && \
+    apt-get update && apt-get install -y symfony-cli && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Travailler dans /app
 WORKDIR /app
 COPY . .
 
-# Installer les dépendances PHP (sans dev)
+# Créer utilisateur non-root
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
+
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
+
 RUN composer install --no-dev --optimize-autoloader
 
-# Commande par défaut, à adapter selon ton projet
-CMD ["php", "bin/console", "server:run", "0.0.0.0:8000"]
+# Exposer le port
+EXPOSE 8000
+
+# Lancer le serveur interne PHP
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
