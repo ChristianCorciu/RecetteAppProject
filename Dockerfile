@@ -26,6 +26,8 @@ RUN useradd -m appuser && chown -R appuser:appuser /app
 # Passer à l'utilisateur non-root
 USER appuser
 
+ENV APP_ENV=prod
+
 # Installer les dépendances PHP avec Composer (sans dev, optimisé)
 RUN rm -rf var/cache/* \
  && composer install --no-dev --optimize-autoloader
