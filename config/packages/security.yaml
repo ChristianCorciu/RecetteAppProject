@@ -16,9 +16,6 @@ security:
         main:
             lazy: true
             provider: users_in_db
-            main:
-            lazy: true
-            provider: users_in_db
             form_login:
             login_path: app_login
             check_path: app_login
