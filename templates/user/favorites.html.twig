@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Favoris{% endblock %}
+
+{% block body %}
+    <div class="container py-5">
+        <h1 class="text-center mb-4 custom-title">Mes Recettes Favorites</h1>
+
+        {% if favorites is not empty %}
+            <div class="row justify-content-center">
+                {% for fav in favorites %}
+                    <div class="col-md-2 mb-4"> <!-- Réduction de la largeur ici à 2 colonnes sur grand écran -->
+                        <div class="custom-card">
+                            <div class="card-body">
+                                <h5 class="card-title custom-card-title">{{ fav.recipe.name }}</h5>
+                                <p class="card-text custom-card-text">{{ fav.recipe.description|slice(0, 80) }}...</p>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{ path('recipe_view', { id: fav.recipe.id }) }}" class="btn custom-btn">Voir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center custom-no-favorites">Vous n'avez aucune recette en favori.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        /* Style général */
+        /* Style général */
+body {
+    background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #34495e;
+    margin: 0;
+    padding: 0;
+}
+
+/* Titre de la page */
+.custom-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #1e3a8a; /* Bleu profond */
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 4px rgba(30, 58, 138, 0.3);
+}
+
+/* Conteneur de chaque recette */
+.custom-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(30, 58, 138, 0.12);
+    padding: 20px;
+    height: 190px;
+    min-width: 220px;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.custom-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 32px rgba(30, 58, 138, 0.25);
+    border-color: #1e3a8a;
+}
+
+/* Titre de la recette */
+.custom-card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e3a8a;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+/* Description de la recette */
+.custom-card-text {
+    font-size: 1rem;
+    color: #657786;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+/* Bouton Voir la recette */
+.custom-btn {
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 6px 12px rgba(0, 242, 254, 0.4);
+    transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+    text-align: center;
+    width: 100%;
+}
+
+.custom-btn:hover {
+    background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+    box-shadow: 0 8px 20px rgba(0, 242, 254, 0.7);
+    transform: translateY(-3px);
+}
+
+/* Message lorsqu'il n'y a pas de favoris */
+.custom-no-favorites {
+    font-size: 1.1rem;
+    color: #8899a6;
+    font-style: italic;
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Espacement des cartes */
+.col-md-2 {
+    padding: 0 15px;
+    margin-bottom: 30px;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .col-md-2 {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+}
+
+
+    </style>
+{% endblock %}
