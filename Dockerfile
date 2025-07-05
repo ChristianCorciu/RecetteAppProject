@@ -29,7 +29,8 @@ RUN composer install --optimize-autoloader
 
 RUN apt-get update && apt-get install -y \
     libicu-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
- && docker-php-ext-install intl pdo pdo_mysql pdo_pgsql zip opcache
+ && docker-php-ext-install intl pdo pdo_mysql pdo_pgsql zip opcache \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
 
