@@ -1,4 +1,5 @@
 FROM php:8.2-fpm
+USER root
 
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
