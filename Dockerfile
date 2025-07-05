@@ -27,7 +27,9 @@ RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
 # Installer les dépendances PHP avec Composer (sans dev, optimisé)
-RUN composer install --no-dev --optimize-autoloader
+RUN rm -rf var/cache/* \
+ && composer install --no-dev --optimize-autoloader
+
 
 # Exposer le port 8000
 EXPOSE 8000
