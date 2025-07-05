@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: recette-app
+    env: php
+    buildCommand: ./build.sh
+    startCommand: php -S 0.0.0.0:10000 -t public
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_SECRET
+        value: your_app_secret
+      - key: DATABASE_URL
+        value: postgresql://postgres:Mateo20122004*@db.pjrvjsjzoucvboyluonr.supabase.co:5432/postgres
