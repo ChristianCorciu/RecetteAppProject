@@ -27,6 +27,12 @@ USER appuser
 RUN composer install --optimize-autoloader
 
 
+RUN apt-get update && apt-get install -y \
+    libicu-dev libonig-dev libxml2-dev libzip-dev libpq-dev \
+ && docker-php-ext-install intl pdo pdo_mysql pdo_pgsql zip opcache
+
+
+
 # Expose port 8000
 EXPOSE 8000
 
