@@ -36,5 +36,7 @@ RUN rm -rf var/cache/* \
 # Exposer le port 8000
 EXPOSE 8000
 
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+
 # Commande de démarrage
 CMD ["symfony", "serve", "--no-tls", "--port=8000", "--dir=public"]
