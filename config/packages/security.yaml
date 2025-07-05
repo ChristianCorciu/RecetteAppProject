@@ -16,11 +16,16 @@ security:
         main:
             lazy: true
             provider: users_in_db
+            main:
+            lazy: true
+            provider: users_in_db
             form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-                default_target_path: app_home  # Redirection après connexion réussie
+            login_path: app_login
+            check_path: app_login
+            enable_csrf: true
+            csrf_token_generator: security.csrf.token_manager
+            csrf_token_id: authenticate
+            default_target_path: app_home
             logout:
                 path: app_logout
                 # where to redirect after logout
