@@ -32,4 +32,5 @@ RUN rm -rf var/cache/* && composer install --no-dev --optimize-autoloader
 EXPOSE 8000
 
 # Démarrer le serveur Symfony sur 0.0.0.0:$PORT (important pour Render)
-CMD php -S 0.0.0.0:${PORT:-8000} -t public
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public/index.php"]
+
