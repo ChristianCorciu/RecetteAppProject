@@ -12,7 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 class HomeController extends AbstractController
 {
 
-    #[Route('/', name: 'app_landing')]
+   #[Route('/', name: 'app_landing', methods: ['GET'])]
     public function landing(Security $security): Response
     {
         if ($security->getUser()) {
