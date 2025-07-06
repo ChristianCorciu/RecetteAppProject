@@ -9,7 +9,6 @@
 
 {% block body %}
     <div class="container">
-<p>Token généré : {{ csrf_token('authenticate') }}</p>
 
         <div class="card">
             <div class="card-header">Connexion</div>
@@ -26,6 +25,8 @@
     {% endif %}
 
     <label for="username">Email</label>
+<p>Token généré : {{ csrf_token('authenticate') }}</p>
+
     <input type="text" id="username" name="_username" value="{{ last_username }}" required>
 
     <label for="password">Password</label>
