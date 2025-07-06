@@ -20,9 +20,8 @@ final class Version20250106140706 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE recipe CHANGE steps steps JSON NOT NULL');
-        $this->addSql('ALTER TABLE messenger_messages CHANGE delivered_at delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
-    }
+       $this->addSql('ALTER TABLE recipe ALTER COLUMN steps TYPE JSON USING steps::JSON');
+        $this->addSql('ALTER TABLE recipe ALTER COLUMN steps SET NOT NULL');
 
     public function down(Schema $schema): void
     {
