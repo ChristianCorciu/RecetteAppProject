@@ -14,10 +14,9 @@ class SecurityController extends AbstractController
     #[Route(path: '/login', name: 'app_login', methods: ['GET', 'POST'])]
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        if ($request->isMethod('POST')) {
-            $email = $request->request->get('email');
-            $password = $request->request->get('password');
-
+       if ($request->isMethod('POST')) {
+        $postData = $request->request->all();
+        $logger->info('Données POST reçues', $postData);
             $client = new Client();
 
             try {
