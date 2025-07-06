@@ -1,148 +1,165 @@
+{# templates/login/login.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Login{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/register.css') }}">
+{% endblock %}
 
 {% block body %}
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+    <div class="container">
 
-        form {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+        <div class="card">
+            <div class="card-header">Connexion</div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
 
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
+                <form method="post" action="{{ path('app_login') }}">
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-        label {
-            display: block;
-            font-size: 0.9rem;
-            color: #555;
-            margin-bottom: 5px;
-        }
+    <label for="username">Email</label>
+<p>Token généré : {{ csrf_token('authenticate') }}</p>
 
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
+    <input type="text" id="username" name="_username" value="{{ last_username }}" required>
 
-        .form-control:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 5px rgba(52, 152, 219, 0.4);
-        }
+    <label for="password">Password</label>
+    <input type="password" id="password" name="_password" required>
 
-        .btn {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            background-color: #3498db;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
+    <!-- TOKEN CSRF CORRECT -->
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        .btn:hover {
-            background-color: #2980b9;
-        }
+    <button type="submit">Login</button>
+</form>
 
-        .alert {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-        }
-
-        .alert-danger {
-            background-color: #e74c3c;
-            color: #fff;
-        }
-
-        .mb-3 {
-            margin-bottom: 15px;
-        }
-
-        a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .font-weight-normal {
-            font-weight: 400;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .register-link a {
-            font-weight: 600;
-            color: #3498db;
-        }
-
-        .register-link a:hover {
-            color: #2980b9;
-        }
-    </style>
-
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-
-        {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
             </div>
-        {% endif %}
-
-        <h1 class="h3 mb-3 font-weight-normal">Connectez-vous</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
-
-        <button class="btn btn-lg btn-primary" type="submit">
-            Connexion
-        </button>
-
-        <div class="register-link">
-            Pas encore de compte ? <a href="{{ path('app_register') }}">S'inscrire</a>
         </div>
-    </form>
+    </div>
+
+   <style>
+/* Styles de base pour la page */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+}
+
+/* Carte */
+.card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+.card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    background-color: #007bff;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Titres et textes */
+h3 {
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Formulaire */
+.form-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Bouton de connexion */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 1.125rem;
+    padding: 0.75rem;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 91, 187, 0.2);
+}
+
+/* Alertes */
+.alert {
+    padding: 0.75rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+    }
+}
+
+  </style>
 {% endblock %}
