@@ -21,7 +21,6 @@ security:
                 check_path: app_login
                 csrf_token_id: authenticate
                 csrf_parameter: _csrf_token
-                enable_csrf: true
                 default_target_path: app_home
                 username_parameter: _username
                 password_parameter: _password
