@@ -9,24 +9,28 @@ security:
                 property: email
 
     firewalls:
-    main:
-        lazy: true
-        provider: users_in_db
-        form_login:
-            login_path: app_login
-            check_path: app_login
-            enable_csrf: true
-            csrf_token_generator: security.csrf.token_manager
-            csrf_token_id: authenticate
-            default_target_path: app_home
-            username_parameter: email
-            password_parameter: password
-        logout:
-            path: app_logout
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            lazy: true
+            provider: users_in_db
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+                csrf_token_generator: security.csrf.token_manager
+                csrf_token_id: authenticate
+                default_target_path: app_home
+                username_parameter: email
+                password_parameter: password
+            logout:
+                path: app_logout
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
