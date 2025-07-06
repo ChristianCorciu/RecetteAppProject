@@ -2,32 +2,36 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Login{% endblock %}
+
 {% block head %}
     <link rel="stylesheet" href="{{ asset('assets/styles/register.css') }}">
 {% endblock %}
 
 {% block body %}
-    <h1 class="titre">Login</h1>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Connexion</div>
+            <div class="card-body">
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
 
-    {% if error %}
-        <div class="form-error">
-            {{ error.messageKey|trans(error.messageData, 'security') }}
+                <form method="post" action="{{ path('app_login') }}">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email" required autofocus>
+
+                    <label for="inputPassword" class="form-label">Mot de passe</label>
+                    <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button type="submit">Connexion</button>
+                </form>
+            </div>
         </div>
-    {% endif %}
-
-<form method="post" action="{{ path('app_login') }}">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    <label for="inputEmail">Email</label>
-  <input type="email" name="email" placeholder="Email" required>
-<input type="password" name="password" placeholder="Mot de passe" required>
-<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <button type="submit">Connexion</button>
-</form>
-
+    </div>
 
    <style>
 /* Styles de base pour la page */
