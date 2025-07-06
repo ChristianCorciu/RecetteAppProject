@@ -20,7 +20,6 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                csrf_token_generator: security.csrf.token_manager
                 csrf_token_id: authenticate
                 default_target_path: app_home
                 username_parameter: email
