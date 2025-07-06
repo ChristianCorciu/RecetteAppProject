@@ -9,6 +9,8 @@
 
 {% block body %}
     <div class="container">
+<p>Token généré : {{ csrf_token('authenticate') }}</p>
+
         <div class="card">
             <div class="card-header">Connexion</div>
             <div class="card-body">
