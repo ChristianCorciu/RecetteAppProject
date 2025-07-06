@@ -22,8 +22,8 @@ security:
                 enable_csrf: true
                 csrf_token_id: authenticate
                 default_target_path: app_home
-                username_parameter: email
-                password_parameter: password
+                username_parameter: _username
+                password_parameter: _password
             logout:
                 path: app_logout
 
