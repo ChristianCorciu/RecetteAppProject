@@ -101,7 +101,7 @@
 
     <div class="register-container">
         <!-- Titre placé au-dessus de la carte -->
-        <h1 class="register-title">Register</h1>
+        <h1 class="register-title">Inscription</h1>
 
         <!-- Carte contenant le formulaire -->
         <div class="register-card">
@@ -117,26 +117,26 @@
     {{ form_widget(registrationForm._token) }} {# <-- ajoute ce champ caché CSRF ici #}
 
     {{ form_row(registrationForm.name, {
-        label: 'Full Name',
+        label: 'Nom complet',
         attr: { class: 'form-control' }
     }) }}
     {{ form_row(registrationForm.email, {
         attr: { class: 'form-control' }
     }) }}
     {{ form_row(registrationForm.plainPassword.first, {
-        label: 'Password',
+        label: 'Mot de passe',
         attr: { class: 'form-control' }
     }) }}
     {{ form_row(registrationForm.plainPassword.second, {
-        label: 'Confirm Password',
+        label: 'Confirmer Mot de passe',
         attr: { class: 'form-control' }
     }) }}
     {{ form_row(registrationForm.agreeTerms, {
-        label: 'I agree to the terms and conditions',
+        label: 'Accepter les conditions d'utilisation ',
         attr: { class: 'form-check-input' }
     }) }}
 
-    <button type="submit" class="btn">Register</button>
+    <button type="submit" class="btn">Valider</button>
 {{ form_end(registrationForm) }}
 
         </div>
