@@ -129,7 +129,7 @@ public function nutrition(int $id): Response
             $recipe->setSteps($steps);  // Assurez-vous que vous avez bien configuré le setter
 
             // Associe l'utilisateur connecté comme auteur
-           // $recipe->setAuthor($this->getUser());
+            $recipe->setAuthor($this->getUser());
 
             // Sauvegarde des ingrédients avec leur quantité
             foreach ($recipe->getRecipeIngredients() as $recipeIngredient) {
