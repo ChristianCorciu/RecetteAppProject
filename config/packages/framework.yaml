@@ -3,8 +3,12 @@ framework:
     session:
         handler_id: null
         save_path: '%kernel.cache_dir%/sessions'
-        cookie_secure: true         # force HTTPS même si Symfony pense être en HTTP
-        cookie_samesite: none       # utile si Render sert l'app dans un iframe ou domaine tiers
-    trusted_proxies: '127.0.0.1,REMOTE_ADDR'  # indispensable pour Render
+        cookie_secure: true
+        cookie_samesite: none
+    trusted_proxies: '127.0.0.1,REMOTE_ADDR'
     trusted_headers:
-        X-Forwarded-Proto: true
+        - 'x-forwarded-for'
+        - 'x-forwarded-host'
+        - 'x-forwarded-port'
+        - 'x-forwarded-proto'
+        - 'x-forwarded-prefix'
