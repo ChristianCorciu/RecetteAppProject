@@ -109,7 +109,11 @@
                 {{ form_errors(registrationForm) }}
             </div>
 
-            {{ form_start(registrationForm) }}
+            {{ form_start(registrationForm, {
+    method: 'POST',
+    action: path('app_register'),
+    attr: { novalidate: 'novalidate' }
+}) }}
     {{ form_widget(registrationForm._token) }} {# <-- ajoute ce champ caché CSRF ici #}
 
     {{ form_row(registrationForm.name, {
